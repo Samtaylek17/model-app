@@ -1,45 +1,57 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { randomBytes } = require('crypto');
 const cors = require('cors');
-const axios = require('axios');
+const cookieParser = require('cookie-parser');
+const compression = require('compression');
+const express = require('express');
+
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const posts = {};
+app.options('*', cors());
 
-app.get('/posts', (req, res) => {
-	res.send(posts);
+//Set Security Http Headers
+app.use(helmet());
+
+// Limit requests from same API
+const limiter = rateLimit({
+	max: 100,
+	windowMs: 60 * 60 * 1000,
+	message: 'Too many request from this IP, please try again in an hour',
 });
 
-app.post('/posts/create', async (req, res) => {
-	const id = randomBytes(4).toString('hex');
-	const { title } = req.body;
+app.use('/api', limiter);
 
-	posts[id] = {
-		id,
-		title,
-	};
+// Body parser, reading data from the body into req.body
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(cookieParser());
 
-	await axios.post('http://event-bus-srv:4005/events', {
-		type: 'PostCreated',
-		data: {
-			id,
-			title,
-		},
-	});
+// Data sanitization againt NoSQl query injection
+app.use(mongoSanitize());
+// Data sanitization against XSS
+app.use(xss());
 
-	res.status(201).send(posts[id]);
+// // Prevent parameter pollution
+// app.use(
+//   hpp({
+
+//   })
+// )
+
+app.use(compression());
+
+app.use((req, res, next) => {
+	req.requestTime = new Date().toISOString();
+	next();
 });
 
-app.post('/events', (req, res) => {
-	console.log('Received Event', req.body.type);
+// app.use(globalErrorHandler);
 
-	res.send({});
-});
-
-app.listen(4000, () => {
-	console.log('listening on port 4000');
-});
+module.exports = app;
