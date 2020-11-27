@@ -9,6 +9,10 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 
+const globalErrorHandler = require('./controllers/errorController');
+// const userController = require('./controllers/userController');
+const userRouter = require('./routes/userRoutes');
+
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
@@ -44,6 +48,9 @@ app.use((req, res, next) => {
 	next();
 });
 
-// app.use(globalErrorHandler);
+app.use('/api/v1/users', userRouter);
 
+app.use(globalErrorHandler);
+
+// 4) START SERVER
 module.exports = app;
