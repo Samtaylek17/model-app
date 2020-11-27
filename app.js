@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
-const express = require('express');
 
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -37,13 +36,6 @@ app.use(cookieParser());
 app.use(mongoSanitize());
 // Data sanitization against XSS
 app.use(xss());
-
-// // Prevent parameter pollution
-// app.use(
-//   hpp({
-
-//   })
-// )
 
 app.use(compression());
 

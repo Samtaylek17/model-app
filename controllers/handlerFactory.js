@@ -1,7 +1,6 @@
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
-const { Model } = require('mongoose');
 
 // Call this method to delete a document from the database
 exports.deleteOne = (Model) =>
