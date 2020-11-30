@@ -17,6 +17,9 @@ const projectSchema = new mongoose.Schema(
 			default: 'pending',
 			lowercase: true,
 		},
+		voteLink: {
+			type: String,
+		},
 		requests: {
 			type: Number,
 			required: [true, 'A project must have number of votes'],
