@@ -4,6 +4,7 @@ const { promisify } = require('util');
 const axios = require('axios');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const Email = require('../utils/email');
 const User = require('../models/userModel');
 
 const signToken = (id) => {
