@@ -10,7 +10,9 @@ const projectSchema = new mongoose.Schema(
 			type: String,
 			required: [true, 'A project must have a description'],
 		},
-		dateCreated: Date.now(),
+		dateCreated: {
+			type: Date,
+		},
 		status: {
 			type: String,
 			enum: ['open', 'pending', 'closed'],
@@ -20,7 +22,7 @@ const projectSchema = new mongoose.Schema(
 		voteLink: {
 			type: String,
 		},
-		requests: {
+		voteRequests: {
 			type: Number,
 			required: [true, 'A project must have number of votes'],
 		},

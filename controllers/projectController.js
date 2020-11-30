@@ -2,7 +2,6 @@ const Project = require('../models/projectModel');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
-const APIFeatures = require('../utils/apiFeatures');
 
 exports.setProjectUserIds = (req, res, next) => {
 	if (!req.body.user) req.body.user = req.user.setProjectUserIds;
@@ -11,16 +10,16 @@ exports.setProjectUserIds = (req, res, next) => {
 
 exports.aliasTopProject = (req, res, next) => {
 	req.query.limit = '3';
-	req.query.sort = '-createdAt';
+	req.query.sort = '-dateCreated';
 	next();
 };
 
 exports.getAllProjects = factory.getAll(Project);
 
-exports.getRoomie = factory.getOne(Project);
+exports.getProject = factory.getOne(Project);
 
 exports.createProject = catchAsync(async (req, res, next) => {
-	const user = await User.findOne(res.locals.user._id).select('createdAt');
+	// const user = await User.findOne(res.locals.user._id).select('createdAt');
 
 	req.body.dateCreated = Date.now();
 
@@ -35,4 +34,4 @@ exports.createProject = catchAsync(async (req, res, next) => {
 });
 
 exports.updateProject = factory.updateOne(Project);
-exports.deleteProject = factory.deleteProject(Project);
+exports.deleteProject = factory.deleteOne(Project);
