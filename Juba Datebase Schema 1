@@ -1,0 +1,52 @@
+JUBA DATABASE SCHEMA
+
+	user table
+id
+userID: user_
+username
+email
+password
+dateJoined: timestamp
+status: active/suspe nded/deleted 
+emailVerification: boolean
+lastLoginDate:
+
+	projects table
+id
+projectID: proj_
+title
+description:
+dateCreated: timestamp
+status: open/pending/close
+userID
+endDate: timestamp
+requests:
+maxRequests:
+
+	requests table
+id
+requestID: req_
+title
+description:
+dateCreated: timestamp
+status: open/pending/close
+shares:
+votes:
+endDate: timestamp
+userID
+projectID:
+
+
+	transactions table
+id
+transactionID: trans_
+datePaid: timestamp
+amount:
+credits:
+
+	wallets table
+id
+walletId: wal_
+userID:
+transactionID:
+datePaid
