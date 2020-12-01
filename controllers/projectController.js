@@ -20,18 +20,23 @@ exports.getProject = factory.getOne(Project);
 
 exports.createProject = catchAsync(async (req, res, next) => {
 	// const user = await User.findOne(res.locals.user._id).select('createdAt');
+	try {
+		req.body.dateCreated = Date.now();
 
-	req.body.dateCreated = Date.now();
+		const doc = await Project.create(req.body);
 
-	const doc = await Project.create(req.body);
-
-	res.status(201).json({
-		status: 'success',
-		data: {
-			data: doc,
-		},
-	});
+		res.status(201).json({
+			status: 'success',
+			data: {
+				data: doc,
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
 });
+
+// exports.createProject = factory.createOne(Project);
 
 exports.updateProject = factory.updateOne(Project);
 exports.deleteProject = factory.deleteOne(Project);

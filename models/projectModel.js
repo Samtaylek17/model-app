@@ -12,6 +12,8 @@ const projectSchema = new mongoose.Schema(
 		},
 		dateCreated: {
 			type: Date,
+			default: Date.now(),
+			select: false,
 		},
 		status: {
 			type: String,
@@ -38,7 +40,7 @@ const projectSchema = new mongoose.Schema(
 	}
 );
 
-projectSchema.index({ user: 1 }, { unique: true });
+// projectSchema.index({ user: 1 }, { unique: false });
 
 projectSchema.pre(/^find/, function (next) {
 	this.populate({
@@ -46,6 +48,11 @@ projectSchema.pre(/^find/, function (next) {
 		select: 'email',
 	});
 
+	next();
+});
+
+projectSchema.post(/^find/, function (docs, next) {
+	console.log(`Query took ${Date.now() - this.start} milliseconds!`);
 	next();
 });
 
