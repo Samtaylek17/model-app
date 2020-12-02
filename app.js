@@ -13,6 +13,7 @@ const globalErrorHandler = require('./controllers/errorController');
 // const userController = require('./controllers/userController');
 const userRouter = require('./routes/userRoutes');
 const projectRouter = require('./routes/projectRoutes');
+const requestRouter = require('./routes/requestRoutes');
 
 const app = express();
 app.use(bodyParser.json());
@@ -51,6 +52,7 @@ app.use((req, res, next) => {
 
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/projects', projectRouter);
+app.use('/api/v1/requests', requestRouter);
 
 app.use(globalErrorHandler);
 
