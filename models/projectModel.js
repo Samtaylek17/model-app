@@ -51,6 +51,11 @@ projectSchema.pre(/^find/, function (next) {
 	next();
 });
 
+projectSchema.pre(/^find/, function (next) {
+	this.start = Date.now();
+	next();
+});
+
 projectSchema.post(/^find/, function (docs, next) {
 	console.log(`Query took ${Date.now() - this.start} milliseconds!`);
 	next();

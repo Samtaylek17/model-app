@@ -11,16 +11,13 @@ router
 router
 	.route('/')
 	.get(projectController.getAllProjects)
-	// .post(authController.isLoggedIn, projectController.createProject);
-	.post(projectController.createProject);
+	.post(authController.protect, projectController.createProject);
 
-// router.use(
-//   authController.isLoggedIn,
-// )
+// router.use(authController.isLoggedIn);
 
 router
 	.route('/:id')
-	.get(authController.protect, projectController.getProject)
+	.get(projectController.getProject)
 	.patch(authController.protect, projectController.updateProject)
 	.delete(authController.protect, projectController.deleteProject);
 
