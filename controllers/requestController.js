@@ -5,6 +5,7 @@ const Request = require('../models/requestModel');
 const factory = require('./handlerFactory');
 
 exports.setRequestUserIds = (req, res, next) => {
+	if (!req.body.project) req.body.project = req.params.requestId;
 	if (!req.body.user) req.body.user = req.user.id;
 	next();
 };

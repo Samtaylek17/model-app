@@ -7,6 +7,10 @@ const requestSchema = new mongoose.Schema(
 			type: String,
 			required: [true, 'Please provide a voting link'],
 		},
+		createdAt: {
+			type: Date,
+			default: Date.now(),
+		},
 		project: {
 			type: mongoose.Schema.ObjectId,
 			ref: 'Project',
